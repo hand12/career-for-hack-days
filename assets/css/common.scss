@@ -1,0 +1,27 @@
+$mainColor: #4DC453;
+$bgColor: #F6F6F6;
+$headerColor: #23272F;
+$alertColor: #E86951;
+$grayColor: #757575;
+$grayBorderColor:#D7D7D7;
+$borderColor: #dfdfdf;
+$buttonShadow: #D5D5D5;
+$grayBgColor: #F2F2F2;
+$tableHoverColor: #f6fbfd;
+
+$fontMainColor: #222A31;
+$fontGrayColor: #C1C1C1;
+$fontDarkGrayColor: #646464;
+$fontTableHoverColor: #2098bf;
+
+$sizeXXl: 28px;
+$sizeXl: 24px;
+$sizeLg: 20px;
+$sizeMd: 16px;
+$sizeSm: 12px;
+$sizeXs: 10px;
+$sizeFormMin: 16px;
+
+@mixin box-shadow() {
+  box-shadow: 0 3px 0 rgba(0,0,0,0.1), 0 4px 12px rgba(255,255,255,0.3) inset;
+}
