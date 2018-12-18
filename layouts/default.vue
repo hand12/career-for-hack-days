@@ -55,7 +55,6 @@ select {
   width: 100vw;
   padding: 16px;
   background: white;
-  border-bottom: 1px solid #222;
   box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 
 
