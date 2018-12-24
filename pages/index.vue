@@ -1,22 +1,35 @@
 <template>
   <section class="container">
-    <h1>test</h1>
+    <div class="job-postings">
+      <job-posting />
+      <job-posting />
+      <job-posting />
+    </div>
   </section>
 </template>
 
 <script>
+import JobPosting from '~/components/JobPosting'
+
 export default {
+  components: {
+    JobPosting
+  }
 }
 </script>
 
 <style lang="scss" scoped>
+@import '~assets/css/common';
 
 .container {
+  padding-top: 72px;
   min-height: 100vh;
   display: flex;
   justify-content: center;
-  align-items: center;
-  text-align: center;
+  align-items: flex-start;
+  .job-postings {
+    padding: 8px;
+  }
 }
 
 </style>
