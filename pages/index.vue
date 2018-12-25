@@ -21,10 +21,10 @@ export default {
     ...mapActions('job_posting', ['bindJobPosting'])
   },
   computed: {
-    ...mapGetters('job_posting', ['jobPostings'])
+    ...mapGetters('job_posting', ['jobPostings']),
   },
   created() {
-    this.bindJobPosting();
+    this.bindJobPosting()
   }
 }
 </script>

@@ -6,7 +6,6 @@
       </div>
       <div class="job-posting-main-card">
         <div class="imagebox">
-          <!-- <img src="~/assets/images/livesense.jpg" /> -->
           <img :src="jobPosting.imageUrl" />
         </div>
         <div class="point">
@@ -37,7 +36,17 @@
       </div>
     </div>
     <div class="bottom-buttons">
-      <span class="button apply">応募する</span>
+      <span
+        v-if="!hasApplicated()"
+        @click="apply"
+        class="button apply">
+        応募する
+      </span>
+      <span
+        v-else
+        class="button applied">
+        応募済み
+      </span>
       <span
         @click="segueToIndex"
         class="button back">一覧に戻る</span>
@@ -53,16 +62,47 @@ export default {
     jobPosting() {
       return this.jobPostings.find(jobPosting => jobPosting.id === this.$route.params.id)
     },
-    ...mapGetters('job_posting', ['jobPostings'])
+    ...mapGetters('job_posting', ['jobPostings']),
+    ...mapGetters('application', ['applications']),
+    ...mapGetters('user', ['currentUser']),
   },
   methods: {
     segueToIndex() {
       this.$router.push({ name: "index" })
     },
-    ...mapActions('job_posting', ['bindJobPosting'])
+    hasApplicated() {
+      if (!this.currentUser) return
+      const duplicateApplication = this.applications.find(application => {
+        return (
+          application.jobPostingId === this.jobPosting.id &&
+          application.userUid === this.currentUser.uid
+        )
+      })
+      return !!duplicateApplication
+    },
+    async apply() {
+      this.$nuxt.$loading.start()
+
+      const application = {
+        jobPostingId: this.jobPosting.id,
+        userUid: this.currentUser.uid
+      }
+      await this.addApplication(application)
+
+      this.$nuxt.$loading.finish()
+      this.$router.push({ name: 'index' });
+      this.$message({
+        showClose: true,
+        message: '応募が完了しました',
+        type: 'success'
+      });
+    },
+    ...mapActions('job_posting', ['bindJobPosting']),
+    ...mapActions('application', ['bindJApplication', 'addApplication']),
   },
   created() {
-    this.bindJobPosting();
+    this.bindJobPosting()
+    this.bindJApplication()
   },
 }
 </script>
@@ -76,6 +116,7 @@ export default {
   .job-posting {
     padding: 8px;
     padding-bottom: 96px;
+    background: white;
     .title {
       font-size: $sizeMd;
       font-weight: bold;
@@ -158,6 +199,10 @@ export default {
     .apply {
       background: $applicationButtonColor;
       border-bottom: 4px solid darken($applicationButtonColor, 10);
+    }
+    .applied {
+      background: darken($applicationButtonColor, 10);
+      border-bottom: 4px solid darken($applicationButtonColor, 15);
     }
     .back {
       background: white;

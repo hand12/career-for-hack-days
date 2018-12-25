@@ -10,11 +10,16 @@
       <div class="rightbox">
         <span
           v-if="isSignedIn"
+          class="applications-menu">
+          応募一覧
+        </span>
+        <span
+          v-if="isSignedIn"
           class="user-name">
           {{ currentUser.name }}
         </span>
         <span
-          v-else
+          v-if="!isSignedIn"
           @click="googleLogin">
           facebookでログイン
         </span>
@@ -120,6 +125,11 @@ select {
     }
   }
   .rightbox {
+    .applications-menu {
+      font-size: $sizeSm;
+      color: $fontDarkGrayColor;
+      margin-right: 12px;
+    }
     .user-name {
       font-size: $sizeSm;
       color: $fontDarkGrayColor;
