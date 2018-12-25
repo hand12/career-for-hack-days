@@ -1,7 +1,9 @@
 <template>
   <div>
     <div class="header">
-      <div class="leftbox">
+      <div
+        @click="segueToRoot"
+        class="leftbox">
         <span class="tensyoku">転職</span>
         <span class="kaigi">会議</span>
       </div>
@@ -29,6 +31,9 @@ export default {
   methods: {
     googleLogin() {
       this.signIn()
+    },
+    segueToRoot() {
+      this.$router.push({ name: "index" })
     },
     ...mapActions('user', ['watchSignedInState', 'signIn'])
   },

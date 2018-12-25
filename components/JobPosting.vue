@@ -2,31 +2,45 @@
   <div class="job-posting">
     <div class="title">
       <h2>
-        【営業総合職/スラッシュキャリア】自身のキャリアタグを増やし、<br />
-          ほげほげほげほげほげほげほげほげ
+        {{ jobPosting.name }}
       </h2>
     </div>
     <div class="pr">
-      ■配属部署について：これまでの経験やご経験を踏まえて、以下のいずれかの先行・配属になります。
+      {{ jobPosting.pr }}
     </div>
     <div class="bottom">
       <div class="salary-field">
-        <span class="salary">420</span>
+        <span class="salary">{{ jobPosting.salary.min }}</span>
         <span class="unit">万円 ~ </span>
-        <span class="salary">500</span>
+        <span class="salary">{{ jobPosting.salary.max }}</span>
         <span class="unit">万円</span>
       </div>
-      <div class="detail-btn">
+      <div
+        @click="segueToDetail(jobPosting.id)"
+        class="detail-btn">
         詳細を見る
       </div>
     </div>
   </div>  
 </template>
 
+<script>
+export default {
+  props: ['jobPosting'],
+  methods: {
+    segueToDetail(id) {
+      this.$router.push({ name: 'job_postings-id', params: { id: id } })
+    }
+  }
+}
+</script>
+
+
 <style lang="scss" scoped>
 @import '~assets/css/common';
 
 .job-posting {
+  width: 100%;
   border-radius: 2.5px;
   border: 1px solid $grayBorderColor;
   border-top: 1px solid $mainColor;
@@ -34,9 +48,7 @@
   background: white;
   margin-bottom: 24px;
   .title {
-    overflow: hidden;
     width: 100%;
-    height: calc(#{$sizeMd} * 3);
     margin-bottom: 12px;
     h2 {
       font-weight: bold;

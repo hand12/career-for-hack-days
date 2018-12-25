@@ -2,17 +2,18 @@
   <section class="container">
     <div class="job-posting">
       <div class="title">
-        【営業総合職/スラッシュキャリア】自身のキャリアタグを増やしませんか？
+        {{ jobPosting.name }}
       </div>
       <div class="job-posting-main-card">
         <div class="imagebox">
-          <img src="~/assets/images/livesense.jpg" />
+          <!-- <img src="~/assets/images/livesense.jpg" /> -->
+          <img :src="jobPosting.imageUrl" />
         </div>
         <div class="point">
           求人のポイント
         </div>
         <div class="pr">
-          縦にも横にも幅広くキャリア形成が可能！長期的に市場価値を高め続けていける環境があります。
+          {{ jobPosting.pr }}
         </div>
       </div>
       <div class="job-posting-sub-card">
@@ -21,9 +22,9 @@
         </div>
         <div class="cells">
           <div class="cell">
-            <span class="salary">420</span>
+            <span class="salary">{{ jobPosting.salary.min }}</span>
             <span class="unit">万円 ~</span>
-            <span class="salary">500</span>
+            <span class="salary">{{ jobPosting.salary.max }}</span>
             <span class="unit">万円</span>
           </div>
           <div class="cell">
@@ -37,20 +38,40 @@
     </div>
     <div class="bottom-buttons">
       <span class="button apply">応募する</span>
-      <span class="button back">一覧に戻る</span>
+      <span
+        @click="segueToIndex"
+        class="button back">一覧に戻る</span>
     </div>
   </section>
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
 
+export default {
+  computed: {
+    jobPosting() {
+      return this.jobPostings.find(jobPosting => jobPosting.id === this.$route.params.id)
+    },
+    ...mapGetters('job_posting', ['jobPostings'])
+  },
+  methods: {
+    segueToIndex() {
+      this.$router.push({ name: "index" })
+    },
+    ...mapActions('job_posting', ['bindJobPosting'])
+  },
+  created() {
+    this.bindJobPosting();
+  },
+}
 </script>
 
 <style lang="scss" scoped>
 @import '~assets/css/common';
 
 .container {
-  padding-top: 72px;
+  padding-top: 48px;
   min-height: 100vh;
   .job-posting {
     padding: 8px;
