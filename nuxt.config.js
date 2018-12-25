@@ -21,19 +21,21 @@ module.exports = {
   /*
   ** Customize the progress-bar color
   */
-  loading: { color: '#fff' },
+  loading: '~/components/loading.vue',
 
   /*
   ** Global CSS
   */
   css: [
-    '@/assets/css/common.scss'
+    '@/assets/css/common.scss',
+    'element-ui/lib/theme-chalk/index.css'
   ],
 
   /*
   ** Plugins to load before mounting the App
   */
   plugins: [
+    '~plugins/element-ui'
   ],
 
   /*
@@ -41,7 +43,8 @@ module.exports = {
   */
   modules: [
     // Doc: https://github.com/nuxt-community/axios-module#usage
-    '@nuxtjs/axios'
+    '@nuxtjs/axios',
+    'nuxt-material-design-icons'
   ],
   /*
   ** Axios module configuration
@@ -59,6 +62,7 @@ module.exports = {
     */
     extend(config, ctx) {
       
-    }
+    },
+    vendor: ['element-ui']
   }
 }

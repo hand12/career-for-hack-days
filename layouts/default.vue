@@ -6,12 +6,50 @@
         <span class="kaigi">会議</span>
       </div>
       <div class="rightbox">
-        <span class="user-name">yusuke yamashita</span>
+        <span
+          v-if="isSignedIn"
+          class="user-name">
+          {{ currentUser.name }}
+        </span>
+        <span
+          v-else
+          @click="googleLogin">
+          facebookでログイン
+        </span>
       </div>
     </div>
     <nuxt/>
   </div>
 </template>
+
+<script>
+import { mapActions, mapGetters } from 'vuex'
+
+export default {
+  methods: {
+    googleLogin() {
+      this.signIn()
+    },
+    ...mapActions('user', ['watchSignedInState', 'signIn'])
+  },
+  computed: {
+    ...mapGetters('user', ['isSignedIn', 'currentUser', 'loading'])
+  },
+  mounted() {
+    this.watchSignedInState()
+  },
+  watch: {
+    loading(val) {
+      if (val) {
+        this.$nuxt.$loading.start()
+      } else {
+        this.$nuxt.$loading.finish()
+      }
+    }
+  }
+}
+</script>
+
 
 <style lang="scss">
 @import '../assets/css/common';
@@ -28,9 +66,11 @@ html {
 }
 
 body {
-  margin: 0;
+  margin: 0 auto;
   background: $bgColor;
   color: $fontMainColor;
+  max-width: 500px;
+  border: 1px solid $borderColor;
 }
 
 input[type="text"], 
