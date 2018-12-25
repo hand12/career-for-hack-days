@@ -36,13 +36,18 @@
       </div>
     </div>
     <div class="messages">
-      <message-right />
-      <message-left />
+      <div
+        v-for="message in applicationsMessages()"
+        :key="message.id">
+        <message-right
+          :message="message" />
+      </div>
     </div>
     <div class="bottom-buttons">
-      <textarea
-        rows="3" />
-      <button type="submit">送信</button>
+      <textarea rows="3" v-model="body" />
+      <button
+        @click="submit"
+        type="submit">送信</button>
     </div>
   </section>
 </template>
@@ -53,55 +58,53 @@ import MessageRight from '~/components/MessageRight'
 import MessageLeft from '~/components/MessageLeft'
 
 export default {
+  data() {
+    return {
+      body: null
+    }
+  },
   components: {
     MessageRight,
     MessageLeft
   },
   computed: {
+    application() {
+      return this.applications.find(application => application.id === this.$route.params.id)
+    },
     jobPosting() {
-      return this.jobPostings.find(jobPosting => jobPosting.id === this.$route.params.id)
+      return this.application.jobPosting
     },
     ...mapGetters('job_posting', ['jobPostings']),
     ...mapGetters('application', ['applications']),
+    ...mapGetters('message', ['messages']),
     ...mapGetters('user', ['currentUser']),
   },
   methods: {
-    segueToIndex() {
-      this.$router.push({ name: "index" })
+    applicationsMessages() {
+      return this.messages.filter(message => message.application.id === this.$route.params.id)
     },
-    hasApplicated() {
-      if (!this.currentUser) return
-      const duplicateApplication = this.applications.find(application => {
-        return (
-          application.jobPostingId === this.jobPosting.id &&
-          application.userUid === this.currentUser.uid
-        )
-      })
-      return !!duplicateApplication
-    },
-    async apply() {
+    async submit() {
+      if (this.body.trim().length <= 0) return
       this.$nuxt.$loading.start()
 
-      const application = {
-        jobPostingId: this.jobPosting.id,
-        userUid: this.currentUser.uid
+      const message = {
+        application: { ...this.application },
+        body: this.body,
+        user: { ...this.currentUser },
+        isRead: false,
       }
-      await this.addApplication(application)
-
+      await this.addMessage(message)
       this.$nuxt.$loading.finish()
-      this.$router.push({ name: 'index' });
-      this.$message({
-        showClose: true,
-        message: '応募が完了しました',
-        type: 'success'
-      });
+      this.body = null
     },
     ...mapActions('job_posting', ['bindJobPosting']),
     ...mapActions('application', ['bindJApplication', 'addApplication']),
+    ...mapActions('message', ['bindMessage', 'addMessage']),
   },
   created() {
     this.bindJobPosting()
     this.bindJApplication()
+    this.bindMessage()
   },
 }
 </script>
@@ -110,7 +113,7 @@ export default {
 @import '~assets/css/common';
 
 .container {
-  padding-top: 48px;
+  padding-top: 16px;
   min-height: 100vh;
   .job-posting {
     padding: 8px;

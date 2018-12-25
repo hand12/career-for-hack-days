@@ -31,7 +31,7 @@ export default {
   props: ['application', 'jobPosting'],
   methods: {
     segieToDetail() {
-      this.$router.push({ name: 'applications-id', params: { id: this.jobPosting.id }})
+      this.$router.push({ name: 'applications-id', params: { id: this.application.id }})
     }
   }
 }

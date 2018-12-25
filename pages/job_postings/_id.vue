@@ -74,8 +74,8 @@ export default {
       if (!this.currentUser) return
       const duplicateApplication = this.applications.find(application => {
         return (
-          application.jobPostingId === this.jobPosting.id &&
-          application.userUid === this.currentUser.uid
+          application.jobPosting.id === this.jobPosting.id &&
+          application.user.uid === this.currentUser.uid
         )
       })
       return !!duplicateApplication
@@ -84,8 +84,8 @@ export default {
       this.$nuxt.$loading.start()
 
       const application = {
-        jobPostingId: this.jobPosting.id,
-        userUid: this.currentUser.uid
+        jobPosting: { ...this.jobPosting },
+        user: { ...this.currentUser }
       }
       await this.addApplication(application)
 

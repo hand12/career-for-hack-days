@@ -11,7 +11,7 @@
             v-for="application in currentUsersApplications()"
             :key="application.id"
             :application="application"
-            :jobPosting="jobPosting(application.jobPostingId)" />
+            :jobPosting="jobPosting(application.jobPosting.id)" />
         </div>
       </div>
     </div>
@@ -31,7 +31,7 @@ export default {
   methods: {
     currentUsersApplications() {
       if (!this.currentUser) return
-      return this.applications.filter(application => application.userUid === this.currentUser.uid)
+      return this.applications.filter(application => application.user.uid === this.currentUser.uid)
     },
     jobPosting(id) {
       return this.jobPostings.find(jobPosting => jobPosting.id === id)
