@@ -10,6 +10,7 @@
       <div class="rightbox">
         <span
           v-if="isSignedIn"
+          @click="segueToApplications"
           class="applications-menu">
           応募一覧
         </span>
@@ -39,6 +40,9 @@ export default {
     },
     segueToRoot() {
       this.$router.push({ name: "index" })
+    },
+    segueToApplications() {
+      this.$router.push({ name: "applications" })
     },
     ...mapActions('user', ['watchSignedInState', 'signIn'])
   },

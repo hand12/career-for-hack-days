@@ -34,7 +34,7 @@ export const actions = {
       }
       commit('setLoading', false)
     })
-  }
+  },
 }
 
 export const mutations = {
