@@ -37,11 +37,17 @@
     </div>
     <div class="messages">
       <div
+        v-if="currentUser"
         v-for="message in applicationsMessages()"
         :key="message.id">
+        <message-left
+          v-if="message.user.uid === currentUser.uid"
+          :message="message" />
         <message-right
+          v-else
           :message="message" />
       </div>
+      <div id="scrollMark"></div>
     </div>
     <div class="bottom-buttons">
       <textarea rows="3" v-model="body" />
@@ -106,6 +112,11 @@ export default {
     this.bindJApplication()
     this.bindMessage()
   },
+  watch: {
+    messages() {
+      this.$scrollTo('#scrollMark', 700);
+    }
+  }
 }
 </script>
 

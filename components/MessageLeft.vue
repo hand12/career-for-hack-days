@@ -2,21 +2,17 @@
   <div class="message">
     <div class="user">
       <div class="profile-image">
-        <img src="~/assets/images/yamashita.jpg" />
+        <img :src="message.user.profileImage" />
       </div>
       <div class="name">
-        yusuke yamashita
+        {{ message.user.name }}
       </div>
     </div>
     <div class="balloon">
-      <div class="text">
-        テスト<br />
-        テスト<br />
-        テスト<br />
-        テスト<br />
-        テスト<br />
-        テスト<br />
-      </div>
+      <p
+        class="text"
+        v-html="message.body">
+      </p>
       <div class="bottom-buttons">
         <div class="button">既読</div>
         <div class="posted-date">2018/12/26 12:42</div>
@@ -26,6 +22,9 @@
 </template>
 
 <script>
+export default {
+  props: ['message']
+}
 
 </script>
 
@@ -63,6 +62,7 @@
       display: block;
     }
     .text {
+      white-space: pre-wrap;
       color: $fontMainColor;
       font-size: $sizeSm;
     }
@@ -117,6 +117,7 @@
       }
     }
     .name {
+      text-align: center;
       font-size: $sizeXs;
       color: $fontDarkGrayColor;
     }
