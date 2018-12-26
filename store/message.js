@@ -22,6 +22,17 @@ export const actions = {
   addMessage(_, message) {
     messagesRef.push({ ...message })
   },
+  readMessage(_, message) {
+    const updateMessage = {
+      application: message.application,
+      body: message.body,
+      user: message.user,
+      isRead: true
+    }
+    db.ref('/messages/' + message.id).set({
+      ...updateMessage
+    })
+  }
 }
 
 export const mutations = {
