@@ -20,20 +20,36 @@
         </span>
       </span>
     </div>
-    <div class="read-label">
+    <div
+      v-if="currentUser && havingNotReadMessage"
+      class="read-label">
       NEW
     </div>
   </div>
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
+
 export default {
-  props: ['application', 'jobPosting'],
+  props: ['application', 'jobPosting', 'messages'],
   methods: {
     segieToDetail() {
       this.$router.push({ name: 'applications-id', params: { id: this.application.id }})
-    }
-  }
+    },
+  },
+  computed: {
+    applicationsMessages() {
+      return this.messages.filter(message => message.application.id === this.application.id)
+    },
+    havingNotReadMessage() {
+      return this.applicationsMessages
+        .filter(message => message.user.uid !== this.currentUser.uid)
+        .filter(message => !message.isRead)
+        .length >= 1
+    },
+    ...mapGetters('user', ['currentUser'])
+  },
 }
 </script>
 

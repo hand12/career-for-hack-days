@@ -11,7 +11,8 @@
             v-for="application in currentUsersApplications()"
             :key="application.id"
             :application="application"
-            :jobPosting="jobPosting(application.jobPosting.id)" />
+            :jobPosting="jobPosting(application.jobPosting.id)"
+            :messages="messages" />
         </div>
       </div>
     </div>
@@ -38,15 +39,18 @@ export default {
     },
     ...mapActions('job_posting', ['bindJobPosting']),
     ...mapActions('application', ['bindJApplication']),
+    ...mapActions('message', ['bindMessage']),
   },
   computed: {
     ...mapGetters('job_posting', ['jobPostings']),
     ...mapGetters('application', ['applications']),
+    ...mapGetters('message', ['messages']),
     ...mapGetters('user', ['currentUser']),
   },
   created() {
     this.bindJobPosting()
     this.bindJApplication()
+    this.bindMessage()
   },
 }
 </script>
