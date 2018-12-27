@@ -219,7 +219,7 @@ export default {
       outline: none;
       border: none;
       padding: 8px;
-      font-size: $sizeSm;
+      font-size: $sizeMd;
     }
     button {
       width: 20%;

@@ -14,7 +14,7 @@ export const getters = {
 
 export const actions = {
   signIn() {
-    firebase.auth().signInWithPopup(
+    firebase.auth().signInWithRedirect(
       new firebase.auth.FacebookAuthProvider()
     )
   },
