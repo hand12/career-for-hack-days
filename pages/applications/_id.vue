@@ -64,6 +64,7 @@ import MessageRight from '~/components/MessageRight'
 import MessageLeft from '~/components/MessageLeft'
 
 export default {
+  middleware: 'authenticated',
   data() {
     return {
       body: null
@@ -116,6 +117,11 @@ export default {
     messages(newVal, oldVal) {
       if (newVal.length === oldVal.length) return
       this.$scrollTo('#scrollMark', 700)
+    },
+    currentUser(val) {
+      if (!val) {
+        this.$router.push('/')
+      }
     }
   }
 }

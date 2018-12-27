@@ -81,6 +81,15 @@ export default {
       return !!duplicateApplication
     },
     async apply() {
+      if (!this.currentUser) {
+        this.$message({
+          showClose: true,
+          message: '応募にはログインが必要です',
+          type: 'error'
+        });
+        return this.$router.push('/')
+      }
+
       this.$nuxt.$loading.start()
 
       const application = {

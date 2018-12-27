@@ -1,6 +1,8 @@
 <template>
   <section class="container">
-    <div class="applications">
+    <div
+      v-if="currentUser"
+      class="applications">
       <div class="job-posting-card">
         <div class="label">
           応募一覧
@@ -25,6 +27,7 @@ import JobPosting from '~/components/JobPosting'
 import Application from '~/components/Application'
 
 export default {
+  middleware: 'authenticated',
   components: {
     JobPosting,
     Application
@@ -52,6 +55,13 @@ export default {
     this.bindJApplication()
     this.bindMessage()
   },
+  watch: {
+    currentUser(val) {
+      if (!val) {
+        this.$router.push('/')
+      }
+    }
+  }
 }
 </script>
 

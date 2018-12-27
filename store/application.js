@@ -15,7 +15,7 @@ export const actions = {
   bindJApplication({ commit }) {
     applicationsRef.on('value', snapshot => {
       const values = snapshot.val()
-      const applications = Object.keys(values).map(id => Object.assign(values[id], { id: id }))
+      const applications = Object.keys(values).map(id => Object.assign(values[id], { id: id })).reverse()
       commit('setApplications', applications)
     })
   },

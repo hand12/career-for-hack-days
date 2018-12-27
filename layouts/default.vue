@@ -16,8 +16,9 @@
         </span>
         <span
           v-if="isSignedIn"
+          @click="signOut"
           class="user-name">
-          {{ currentUser.name }}
+          ログアウト
         </span>
         <span
           v-if="!isSignedIn"
@@ -38,13 +39,16 @@ export default {
     googleLogin() {
       this.signIn()
     },
+    signOut() {
+      this.signOut()
+    },
     segueToRoot() {
       this.$router.push({ name: "index" })
     },
     segueToApplications() {
       this.$router.push({ name: "applications" })
     },
-    ...mapActions('user', ['watchSignedInState', 'signIn'])
+    ...mapActions('user', ['watchSignedInState', 'signIn', 'signOut'])
   },
   computed: {
     ...mapGetters('user', ['isSignedIn', 'currentUser', 'loading'])

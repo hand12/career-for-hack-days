@@ -18,6 +18,11 @@ export const actions = {
       new firebase.auth.FacebookAuthProvider()
     )
   },
+  signOut({ commit }) {
+    firebase.auth().signOut()
+    commit('setCurrentUser', null)
+    commit('setSignInState', false)
+  },
   watchSignedInState({ commit }) {
     commit('setLoading', true)
     firebase.auth().onAuthStateChanged(response => {

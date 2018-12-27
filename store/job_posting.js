@@ -15,7 +15,7 @@ export const actions = {
   bindJobPosting({ commit }) {
     jobPostingsRef.on('value', snapshot => {
       const values = snapshot.val()
-      const jobPostings = Object.keys(values).map(id => Object.assign(values[id], { id: id }))
+      const jobPostings = Object.keys(values).map(id => Object.assign(values[id], { id: id })).reverse()
       commit('setJobPosting', jobPostings)
     })
   },
